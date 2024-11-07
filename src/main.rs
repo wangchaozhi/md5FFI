@@ -1,4 +1,5 @@
 use std::ffi::{CStr, CString};
+use std::time::Instant;
 use libc::{c_char, c_int};
 
 // 声明C函数
@@ -8,8 +9,10 @@ extern "C" {
 }
 
 fn main() {
-    println!("cargo:rustc-link-lib=dylib=md5utils"); // 不带前缀和扩展名
-    println!("cargo:rustc-link-search=native=E:/RustroverProjects/md5FFI"); // DLL 文件所在路径
+    // 记录开始时间
+    let start = Instant::now();
+    // println!("cargo:rustc-link-lib=dylib=md5utils"); // 不带前缀和扩展名
+    // println!("cargo:rustc-link-search=native=E:/RustroverProjects/md5FFI"); // DLL 文件所在路径
 
     // 要计算MD5的文件路径
     let file_paths = vec!["E:\\OneDrive\\图片\\Untitled_1.1.1.png"];
@@ -44,4 +47,7 @@ fn main() {
     } else {
         println!("MD5 Calculation Failed");
     }
+    // 记录结束时间并计算时间差
+    let duration = start.elapsed();
+    println!("计算 MD5 所需时间: {} 毫秒", duration.as_millis());
 }
